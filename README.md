@@ -1,26 +1,29 @@
 # ember-strict-warnings
 
-This README outlines the details of collaborating on this Ember addon.
+Do you want to make sure your app never spews warnings? Then this addon is for you. 
+
+It allows you to make specific Ember warnings into hard errors during development and/or test. In combination with sensible Continuous Integration testing, you can automatically reject changes to your app that would introduce warnings.
 
 ## Installation
 
-* `git clone <repository-url>` this repository
-* `cd ember-strict-warnings`
-* `yarn install`
+`npm install --dev ember-strict-warnings`
 
-## Running
+## Configuring
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+In your ember-cli-build.js, add a strictWarnings section to your EmberApp
 
-## Running Tests
+```js
+let app = new EmberApp(defaults, {
+  strictWarnings: {
+    'ember-htmlbars.style-xss-warning': ['development', 'test']
+  }
+});
+```
 
-* `yarn test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+The keys of `strictWarnings` are Ember's IDs for each kind of warning you want to make into an error. 
 
-## Building
+The values are a list of environments. You can't use "production" in the environments, because Ember strips warnings out of production builds. (And it would be a silly thing to do anyway.)
 
-* `ember build`
+You can also use the special key "*" for all warnings.
 
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+
